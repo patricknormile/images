@@ -32,3 +32,14 @@ def cluster_image_spacefeatures(image_path, clusters, alg, savename='', **kwargs
     #plt.figure(figsize=(40,40),facecolor='white')
     #io.imshow(less_colors)
     io.imsave(savename, less_colors)
+
+def cluster_image2(image, clusters, alg, **kwargs) : 
+    n_colors = clusters
+    original = io.imread(image
+                         )
+    arr = original.reshape((-1,3))
+    clstr = alg(n_clusers=n_colors, **kwargs).fit(arr)
+    labels = clstr.labels_
+    centers = clstr.cluster_centers_
+    less_colors = centers[labels].reshape(original.shape).astype('uint8')
+    return less_colors
