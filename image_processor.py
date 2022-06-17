@@ -21,6 +21,7 @@ To do - put in a space/color preprocessor
 put in a space only processor & divide region into clusters & take avg color 
 by region
 scale/unscale images for speed & granularity
+make more flexible with other clustering algs that don't have labels & centers
 
 """
 

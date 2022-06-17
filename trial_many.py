@@ -29,7 +29,7 @@ if __name__ == '__main__' :
         fname = i[:i.find('.jpg')]
         ic = IC(raw_image_path(i))
         ic.cluster_image(MiniBatchKMeans,
-                         save_name=f"{fname}_mbkm_{k}",
+                         save_name=f"{fname}_mbkm_{k}.jpg",
                          n_clusters=k,
                          random_state=923829)
         print(f"ran {i} with {k} clusters")
