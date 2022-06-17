@@ -6,13 +6,23 @@ Created on Thu Jun 16 18:59:21 2022
 @author: patricknormile
 """
 import numpy as np
-from PIL import Image
+#from PIL import Image
 from pathlib import Path
 from skimage import io
-from sklearn.cluster import KMeans, SpectralClustering, Birch
+from sklearn.cluster import KMeans, SpectralClustering, Birch, MiniBatchKMeans
 import matplotlib.pyplot as plt
 from sklearn.preprocessing import MinMaxScaler
 import os, sys
+
+
+"""
+
+To do - put in a space/color preprocessor
+put in a space only processor & divide region into clusters & take avg color 
+by region
+scale/unscale images for speed & granularity
+
+"""
 
 class ImageProcessor() : 
     

@@ -9,7 +9,8 @@ Created on Thu Jun 16 18:47:51 2022
 import os, sys
 from pathlib import Path
 from image_processor import ImageClusterer as IC
-from sklearn.cluster import KMeans, SpectralClustering, Birch, BisectingKMeans
+from sklearn.cluster import KMeans, SpectralClustering, Birch, BisectingKMeans,\
+    MiniBatchKMeans
 import matplotlib.pyplot as plt
 from sklearn.preprocessing import MinMaxScaler
 
@@ -25,7 +26,7 @@ if __name__ == '__main__' :
     
     ex_file = 'moto2.jpg'
     ex = IC(raw_image_path(ex_file))
-    ex.cluster_image(BisectingKMeans,save_name='moto2_bisect_16.jpg', 
+    ex.cluster_image(MiniBatchKMeans,save_name='moto2_mbkm_25.jpg', 
                      n_clusters=16,
                      random_state=9234,
                      )
