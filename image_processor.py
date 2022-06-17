@@ -46,6 +46,20 @@ class ImageProcessor() :
         self.arrfit = image.reshape((-1, 3))
         return self.arrfit
     
+    def preprocess_color_space(self, image=None) : 
+        if image is None : 
+            image=self.image
+        self.original_shape = image.shape
+        rng = image.shape[0:2]
+        x,y = np.meshgrid(range(rng[0]), range(rng[1]))
+        scl = MinMaxScaler()
+        coordinate = np.concatenate([image.reshape(-1,3), 
+                                     x.reshape(-1, 1), 
+                                     y.reshape(-1, 1)], 
+                                    axis=1)
+        self.arrfit = coordinate
+        
+    
     def show_image(self, image=None) : 
         if image is None : 
             image = self.image
@@ -54,7 +68,6 @@ class ImageProcessor() :
 
 class ImageClusterer(ImageProcessor) : 
     
-
     
     def cluster_image(self,alg,save_name=None,**kwargs) : 
         if self.arrfit is None : 
