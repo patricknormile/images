@@ -32,3 +32,4 @@ if __name__ == '__main__' :
                          save_name=f"{fname}_mbkm_{k}",
                          n_clusters=k,
                          random_state=923829)
+        print(f"ran {i} with {k} clusters")
