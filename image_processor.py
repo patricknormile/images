@@ -6,7 +6,7 @@ Created on Thu Jun 16 18:59:21 2022
 @author: patricknormile
 """
 import numpy as np
-#from PIL import Image
+from PIL import Image
 from pathlib import Path
 from skimage import io
 from sklearn.cluster import KMeans, SpectralClustering, Birch, MiniBatchKMeans
@@ -38,14 +38,26 @@ class ImageProcessor() :
         #self.altered_image_path = self.image_path.replace('raw_images',
         #                                                  'altered_images')
     
-    def resize_image(self, img, factor) : 
+    def resize_image(self, factor) : 
         """
         resize an image (np array) by a factor ?
         """
-        pass
+        in_img = Image.open(self.image_path) # could you convert np array to right type?
+        self.orig_shape = np.array(in_img.size)
+        resized_image = in_img.resize(self.orig_shape // factor)
+        self.new_shape = np.array(resized_image.size)
+        self.image = np.array(resized_image)
+        
     
-    def unscale_image(self, img, factor) :
-        pass
+    def unscale_image(self, image=None,factor=8) :
+        """
+        unscale color-clustered
+        """
+        if image is None : 
+            image = Image.open(self.altered_image_path)
+        image.resize(self.orig_shape)
+        image.show()
+        
     
     def preprocess_color(self, image=None) : 
         """
@@ -87,13 +99,17 @@ class ImageClusterer(ImageProcessor) :
         self.alg = alg(**kwargs)
         self.alg.fit(self.arrfit)
         labels = self.alg.labels_
-        centers = self.alg.cluster_centers_
-        self.color_clustered = centers[labels].reshape(self.original_shape)\
+        if 'cluster_centers_' in dir(self.alg) :
+            centers = self.alg.cluster_centers_
+        else : 
+            centers = [self.arrfit[labels==i,:3].mean(axis=0) 
+                       for i in np.unique(labels)]
+        self.color_clustered = centers[labels][:,:3].reshape(self.original_shape)\
             .astype('uint8')
         
         pthobj = Path(self.image_path)
         if save_name is None :     
-            save_name = pthobj.stem + '.' + pthobj.suffix
+            save_name = pthobj.stem + pthobj.suffix
         
         parent = pthobj.parent.parent
         self.altered_image_path = os.path.join(parent,
